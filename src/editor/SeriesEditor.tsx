@@ -1,6 +1,6 @@
 import type { License, RaceEvent, RaceLength } from '../types'
 import { raceTimePresets } from '../data/catalog'
-import { Combo, Field, Segmented, Slider } from './controls'
+import { Field, Segmented, Slider } from './controls'
 
 const licenses: { value: License; label: string }[] = [
   { value: 'R', label: 'R' },
@@ -60,13 +60,27 @@ export function SeriesEditor({ event, onChange }: Props) {
         />
       </Field>
 
-      <Field label="Race times" hint="Pick one or type your own">
-        <Combo
-          label="Race times"
+      <Field label="Race times" hint="One line per schedule">
+        <select
+          className="text"
+          aria-label="Race time preset"
+          value=""
+          onChange={(e) => e.target.value && onChange({ raceTimes: e.target.value })}
+        >
+          <option value="">Pick a preset…</option>
+          {raceTimePresets.map((p) => (
+            <option key={p} value={p}>
+              {p}
+            </option>
+          ))}
+        </select>
+        <textarea
+          className="text"
+          aria-label="Race times"
+          rows={Math.max(2, (event.raceTimes ?? '').split('\n').length)}
           value={event.raceTimes ?? ''}
-          options={raceTimePresets}
-          placeholder="e.g. Every 2 hours"
-          onChange={(raceTimes) => onChange({ raceTimes })}
+          placeholder={'e.g. Saturday → 04:00 · 15:00 (GMT)\nSunday → 00:00 · 20:00 (GMT)'}
+          onChange={(e) => onChange({ raceTimes: e.target.value })}
         />
       </Field>
 

@@ -1,6 +1,53 @@
-import type { RaceEvent } from '../types'
+import type { Project, Race, RaceEvent, TimeOfDay } from '../types'
+import { defaultToggles } from '../types'
+import { carClasses } from './catalog'
 
-// Mirrors the "iRacing Series 2026 S1" Figma frame.
+// Mirrors the "GT4 Schedule - 2025 S4" Figma frame: four series side by side.
+
+type Row = [track: string, config: string | undefined, tod: TimeOfDay, tempC: number, rainPct: number] | null
+
+function races(prefix: string, rows: Row[]): Race[] {
+  return rows.map((row, i) =>
+    row
+      ? {
+          id: `${prefix}-w${i + 1}`,
+          track: row[0],
+          config: row[1],
+          timeOfDay: row[2],
+          weather: { tempC: row[3], rainPct: row[4] },
+        }
+      : { id: `${prefix}-w${i + 1}`, track: '', skip: true },
+  )
+}
+
+const gt4 = { name: 'GT4', cars: [...carClasses.GT4] }
+const imsaTimes = 'Saturday → 04:00 · 15:00 (GMT)\nSunday → 00:00 · 20:00 (GMT)'
+
+const gt4Challenge: RaceEvent = {
+  id: 'gt4-challenge',
+  kind: 'season',
+  name: 'GT4 Challenge',
+  license: 'D',
+  setup: 'Fixed',
+  raceTimes: 'Every 2 hours',
+  length: { value: 20, unit: 'minutes' },
+  classes: [gt4],
+  races: races('gt4', [
+    ['Charlotte Motor Speedway', 'Roval 2025', 'morning', 22, 0],
+    ['Indianapolis Motor Speedway', 'Road Course', 'day', 22, 0],
+    ['Autódromo Hermanos Rodríguez', 'Grand Prix', 'day', 28, 0],
+    ['Road Atlanta', 'Full Course', 'evening', 21, 26],
+    ['Nürburgring Nordschleife', 'Industriefahrten', 'day', 18, 0],
+    ['Autódromo José Carlos Pace', 'Grand Prix', 'day', 26, 0],
+    ['Brands Hatch Circuit', 'Grand Prix', 'day', 19, 0],
+    ['Red Bull Ring', 'Grand Prix', 'day', 18, 33],
+    ['Hungaroring', undefined, 'morning', 18, 0],
+    ['Circuit Zandvoort', 'Grand Prix', 'day', 19, 0],
+    ['Circuit des 24 Heures du Mans', '24 Heures du Mans', 'day', 19, 0],
+    ['Hockenheimring Baden-Württemberg', 'Grand Prix', 'morning', 19, 0],
+  ]),
+}
+
 export const sampleSeason: RaceEvent = {
   id: 'sample-sports-car-challenge',
   kind: 'season',
@@ -9,32 +56,76 @@ export const sampleSeason: RaceEvent = {
   setup: 'Fixed/Open',
   raceTimes: 'Every 2 hours',
   length: { value: 30, unit: 'minutes' },
-  classes: [
-    { name: 'LMP3', cars: ['Ligier JS P320'] },
-    {
-      name: 'GT4',
-      cars: [
-        'Aston Martin Vantage GT4',
-        'BMW M4 G82 GT4 EVO',
-        'Ford Mustang GT4',
-        'McLaren 570S GT4',
-        'Mercedes-AMG GT4',
-        'Porsche 718 Cayman GT4 Clubsport MR',
-      ],
-    },
-  ],
-  races: [
-    { id: 'w1', round: 1, track: 'Charlotte Motor Speedway', config: 'Roval 2025', weather: { timeOfDay: 'morning', tempC: 19, rainPct: 0 } },
-    { id: 'w2', round: 2, track: 'Indianapolis Motor Speedway', config: 'Road Course', weather: { timeOfDay: 'day', tempC: 22, rainPct: 0 } },
-    { id: 'w3', round: 3, track: 'Autódromo Hermanos Rodríguez', config: 'Grand Prix', weather: { timeOfDay: 'day', tempC: 21, rainPct: 27 } },
-    { id: 'w4', round: 4, track: 'Road Atlanta', config: 'Full Course', weather: { timeOfDay: 'evening', tempC: 24, rainPct: 0 } },
-    { id: 'w5', round: 5, track: 'Nürburgring Nordschleife', config: 'Industriefahrten', weather: { timeOfDay: 'day', tempC: 19, rainPct: 0 } },
-    { id: 'w6', round: 6, track: 'Autódromo José Carlos Pace', config: 'Grand Prix', weather: { timeOfDay: 'day', tempC: 21, rainPct: 0 } },
-    { id: 'w7', round: 7, track: 'Brands Hatch Circuit', config: 'Grand Prix', weather: { timeOfDay: 'day', tempC: 19, rainPct: 0 } },
-    { id: 'w8', round: 8, track: 'Red Bull Ring', config: 'Grand Prix', weather: { timeOfDay: 'day', tempC: 19, rainPct: 0 } },
-    { id: 'w9', round: 9, track: 'Hungaroring', weather: { timeOfDay: 'morning', tempC: 19, rainPct: 0 } },
-    { id: 'w10', round: 10, track: 'Circuit Zandvoort', config: 'Grand Prix', weather: { timeOfDay: 'day', tempC: 19, rainPct: 0 } },
-    { id: 'w11', round: 11, track: 'Circuit des 24 Heures du Mans', config: '24 Heures du Mans', weather: { timeOfDay: 'day', tempC: 19, rainPct: 30 } },
-    { id: 'w12', round: 12, track: 'Hockenheimring Baden-Württemberg', config: 'Grand Prix', weather: { timeOfDay: 'evening', tempC: 23, rainPct: 0 } },
-  ],
+  classes: [{ name: 'LMP3', cars: ['Ligier JS P320'] }, gt4],
+  races: races('scc', [
+    ['Charlotte Motor Speedway', 'Roval 2025', 'morning', 19, 0],
+    ['Indianapolis Motor Speedway', 'Road Course', 'day', 22, 0],
+    ['Autódromo Hermanos Rodríguez', 'Grand Prix', 'day', 21, 27],
+    ['Road Atlanta', 'Full Course', 'evening', 24, 0],
+    ['Nürburgring Nordschleife', 'Industriefahrten', 'day', 19, 0],
+    ['Autódromo José Carlos Pace', 'Grand Prix', 'day', 21, 0],
+    ['Brands Hatch Circuit', 'Grand Prix', 'day', 19, 0],
+    ['Red Bull Ring', 'Grand Prix', 'day', 19, 0],
+    ['Hungaroring', undefined, 'morning', 19, 0],
+    ['Circuit Zandvoort', 'Grand Prix', 'day', 19, 0],
+    ['Circuit des 24 Heures du Mans', '24 Heures du Mans', 'day', 19, 30],
+    ['Hockenheimring Baden-Württemberg', 'Grand Prix', 'evening', 23, 0],
+  ]),
+}
+
+const imsaEndurance: RaceEvent = {
+  id: 'imsa-endurance',
+  kind: 'season',
+  name: 'IMSA Sportscar Endurance Challenge',
+  license: 'C',
+  setup: 'Open',
+  raceTimes: imsaTimes,
+  length: { value: 120, unit: 'minutes' },
+  classes: [{ name: 'LMP3', cars: ['Ligier JS P320'] }, gt4],
+  races: races('imsa-e', [
+    ['Charlotte Motor Speedway', 'Roval 2025', 'morning', 20, 0],
+    null,
+    ['Autódromo Hermanos Rodríguez', 'Grand Prix', 'day', 22, 26],
+    null,
+    ['Nürburgring Nordschleife', 'Industriefahrten', 'day', 20, 0],
+    null,
+    ['Brands Hatch Circuit', 'Grand Prix', 'day', 19, 34],
+    null,
+    ['Hungaroring', undefined, 'morning', 19, 0],
+    null,
+    ['Circuit des 24 Heures du Mans', '24 Heures du Mans', 'day', 19, 0],
+    null,
+  ]),
+}
+
+const imsaPilot: RaceEvent = {
+  id: 'imsa-pilot',
+  kind: 'season',
+  name: 'IMSA Michelin Pilot Challenge',
+  license: 'C',
+  setup: 'Open',
+  raceTimes: imsaTimes,
+  length: { value: 120, unit: 'minutes' },
+  classes: [gt4, { name: 'TCR', cars: [...carClasses.TCR] }],
+  races: races('imsa-p', [
+    null,
+    ['Indianapolis Motor Speedway', 'Road Course', 'day', 20, 0],
+    null,
+    ['Road America', 'Full Course', 'evening', 19, 31],
+    null,
+    ['Autódromo José Carlos Pace', 'Grand Prix', 'day', 22, 0],
+    null,
+    ['Red Bull Ring', 'Grand Prix', 'day', 20, 0],
+    null,
+    ['Circuit Zandvoort', 'Grand Prix', 'day', 19, 0],
+    null,
+    ['Hockenheimring Baden-Württemberg', 'Grand Prix', 'evening', 19, 34],
+  ]),
+}
+
+export const sampleProject: Project = {
+  version: 2,
+  series: [gt4Challenge, sampleSeason, imsaEndurance, imsaPilot],
+  fields: { ...defaultToggles },
+  format: 'wide',
 }

@@ -1,4 +1,5 @@
-import type { RaceEvent, RaceLength } from './types'
+import type { PageFormat, Project, Race, RaceEvent, RaceLength, TimeOfDay } from './types'
+import { defaultToggles } from './types'
 
 let counter = 0
 export function newId(prefix = 'id') {
@@ -7,8 +8,33 @@ export function newId(prefix = 'id') {
 }
 
 export function formatLength(length: RaceLength) {
-  const unit = length.value === 1 ? length.unit.slice(0, -1) : length.unit
-  return `${length.value} ${unit}`
+  const plural = (n: number, word: string) => `${n} ${n === 1 ? word : `${word}s`}`
+  if (length.unit === 'laps') return plural(length.value, 'lap')
+  if (length.value >= 60 && length.value % 60 === 0) return plural(length.value / 60, 'hour')
+  return plural(length.value, 'minute')
+}
+
+const formats: PageFormat[] = ['fit', 'wide', 'a4-portrait', 'a4-landscape', 'square', 'story']
+
+function normalizeRace(input: unknown): Race {
+  const raw = (input ?? {}) as Record<string, unknown> & {
+    weather?: { timeOfDay?: TimeOfDay; tempC?: number; rainPct?: number }
+  }
+  // Before v2, time of day lived inside weather.
+  const timeOfDay = (raw.timeOfDay as TimeOfDay | undefined) ?? raw.weather?.timeOfDay
+  const weather =
+    raw.weather && typeof raw.weather.tempC === 'number'
+      ? { tempC: raw.weather.tempC, rainPct: raw.weather.rainPct ?? 0 }
+      : undefined
+  return {
+    id: typeof raw.id === 'string' ? raw.id : newId('race'),
+    track: typeof raw.track === 'string' ? raw.track : '',
+    config: typeof raw.config === 'string' ? raw.config : undefined,
+    date: typeof raw.date === 'string' ? raw.date : undefined,
+    timeOfDay,
+    weather,
+    skip: raw.skip === true || raw.status === 'break' ? true : undefined,
+  }
 }
 
 // Accepts saved or imported data from older versions (e.g. length as "30 minutes")
@@ -26,13 +52,37 @@ export function normalizeEvent(input: unknown): RaceEvent {
       : undefined
   }
 
-  const races = Array.isArray(raw.races) ? (raw.races as RaceEvent['races']) : []
   return {
-    ...(raw as unknown as RaceEvent),
     id: typeof raw.id === 'string' ? raw.id : newId('event'),
     kind: (raw.kind as RaceEvent['kind']) ?? 'season',
+    name: raw.name,
+    license: raw.license as RaceEvent['license'],
+    setup: raw.setup as string | undefined,
+    raceTimes: raw.raceTimes as string | undefined,
     length,
     classes: Array.isArray(raw.classes) ? (raw.classes as RaceEvent['classes']) : [],
-    races: races.map((r) => ({ ...r, id: r.id ?? newId('race') })),
+    races: Array.isArray(raw.races) ? raw.races.map(normalizeRace) : [],
   }
+}
+
+// Accepts a v2 project file, or a single season (v1 save or export).
+export function normalizeProject(input: unknown): Project {
+  if (!input || typeof input !== 'object') throw new Error('Not a poster file.')
+  const raw = input as Record<string, unknown>
+  if (!Array.isArray(raw.series)) {
+    return { version: 2, series: [normalizeEvent(raw)], fields: { ...defaultToggles }, format: 'fit' }
+  }
+  if (raw.series.length === 0) throw new Error('The file has no series.')
+  return {
+    version: 2,
+    series: raw.series.map(normalizeEvent),
+    fields: { ...defaultToggles, ...(raw.fields as object | undefined) },
+    format: formats.includes(raw.format as PageFormat) ? (raw.format as PageFormat) : 'fit',
+  }
+}
+
+// Week labels count only the weeks a series actually races.
+export function weekLabels(races: Race[]) {
+  let n = 0
+  return races.map((r) => (r.skip ? null : ++n))
 }

@@ -1,23 +1,41 @@
-/* Season poster, from the "iRacing Series 2026 S1" Figma frame (base scale: 660px wide). */
+/* Poster, from the "iRacing Series 2026 S1" Figma file (base scale: 660px per series column). */
 .poster {
-  --poster-bg: #2a2a30;
+  --poster-bg: #18181c;
+  --board-bg: #27272d;
   --card-bg: #37373f;
   --panel-bg: #3e3e45;
   --text: #fff;
   --rain: #51bfdb;
 
-  width: 660px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  box-sizing: content-box;
+  box-sizing: border-box;
   background: var(--poster-bg);
   color: var(--text);
   font-family: 'Inter Variable', Inter, system-ui, sans-serif;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
+}
+
+.poster.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.poster.page.fit {
+  display: inline-block;
+  padding: 16px;
+}
+
+.poster .board {
+  display: grid;
+  column-gap: 16px;
+  row-gap: 16px;
+  align-items: stretch;
+  padding: 16px;
+  border-radius: 48px;
+  background: var(--board-bg);
 }
 
 .poster .card {
@@ -72,6 +90,10 @@
   flex-direction: column;
 }
 
+.poster .multiline {
+  white-space: pre-line;
+}
+
 .poster .license {
   align-self: flex-start;
   padding: 4px;
@@ -92,6 +114,7 @@
 
 .poster .cars {
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 16px;
   padding: 16px;
@@ -109,6 +132,7 @@
   display: flex;
   gap: 10px;
   align-items: flex-start;
+  min-height: 48px;
   padding: 8px 0;
 }
 
@@ -129,8 +153,20 @@
   flex-direction: column;
 }
 
-.poster .config {
+/* One line each, so weeks line up across series side by side. */
+.poster .track > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.poster .config,
+.poster .week.blank .track {
   opacity: 0.7;
+}
+
+.poster .week.blank .week-label {
+  opacity: 0.5;
 }
 
 .poster .chips {

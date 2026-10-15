@@ -71,8 +71,8 @@ button:disabled {
 .stage {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
+  min-width: 0;
   padding: 24px 32px 48px;
   overflow: auto;
 }
@@ -83,8 +83,29 @@ button:disabled {
   z-index: 1;
   display: flex;
   justify-content: flex-end;
-  width: 692px;
-  max-width: 100%;
+  align-items: center;
+  gap: 12px;
+}
+
+.format {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.format .text {
+  width: auto;
+}
+
+.preview {
+  width: 100%;
+}
+
+.preview-inner {
+  width: max-content;
+  transform-origin: top left;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0.35);
 }
 
 @media (max-width: 900px) {
@@ -106,5 +127,6 @@ button:disabled {
 
   .stage-bar {
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
