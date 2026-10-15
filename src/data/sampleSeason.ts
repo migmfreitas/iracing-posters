@@ -8,7 +8,7 @@ export const sampleSeason: RaceEvent = {
   license: 'C',
   setup: 'Fixed/Open',
   raceTimes: 'Every 2 hours',
-  length: '30 minutes',
+  length: { value: 30, unit: 'minutes' },
   classes: [
     { name: 'LMP3', cars: ['Ligier JS P320'] },
     {
