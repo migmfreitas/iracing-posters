@@ -3,8 +3,13 @@ import { toPng } from 'html-to-image'
 import { get, set } from 'idb-keyval'
 import { SeasonPoster } from './posters/SeasonPoster'
 import { sampleSeason } from './data/sampleSeason'
+import { normalizeEvent } from './normalize'
+import { SeriesEditor } from './editor/SeriesEditor'
+import { ClassesEditor } from './editor/ClassesEditor'
+import { WeeksEditor } from './editor/WeeksEditor'
 import { defaultToggles, type FieldToggles, type RaceEvent } from './types'
 import './App.css'
+import './editor/editor.css'
 
 const STORAGE_KEY = 'current-event'
 
@@ -15,6 +20,14 @@ const fieldLabels: Record<keyof FieldToggles, string> = {
   length: 'Race length',
   cars: 'Cars and classes',
   weather: 'Weather',
+}
+
+const blankSeason: RaceEvent = {
+  id: 'new-season',
+  kind: 'season',
+  name: 'New season',
+  classes: [],
+  races: [],
 }
 
 function slug(s: string) {
@@ -31,36 +44,27 @@ function download(href: string, filename: string) {
 export default function App() {
   const [event, setEvent] = useState<RaceEvent>(sampleSeason)
   const [fields, setFields] = useState<FieldToggles>(defaultToggles)
-  const [draft, setDraft] = useState(() => JSON.stringify(sampleSeason, null, 2))
   const [error, setError] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const posterRef = useRef<HTMLDivElement>(null)
+  const loaded = useRef(false)
 
   useEffect(() => {
-    get<RaceEvent>(STORAGE_KEY)
+    get(STORAGE_KEY)
       .then((saved) => {
-        if (saved) {
-          setEvent(saved)
-          setDraft(JSON.stringify(saved, null, 2))
-        }
+        if (saved) setEvent(normalizeEvent(saved))
       })
       .catch(() => {})
+      .finally(() => {
+        loaded.current = true
+      })
   }, [])
 
-  function applyDraft(text: string) {
-    setDraft(text)
-    try {
-      const parsed = JSON.parse(text) as RaceEvent
-      if (!parsed.name || !Array.isArray(parsed.races) || !Array.isArray(parsed.classes)) {
-        throw new Error('Needs "name", "classes" and "races".')
-      }
-      setEvent(parsed)
-      setError(null)
-      set(STORAGE_KEY, parsed).catch(() => {})
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e))
-    }
-  }
+  useEffect(() => {
+    if (loaded.current) set(STORAGE_KEY, event).catch(() => {})
+  }, [event])
+
+  const update = (patch: Partial<RaceEvent>) => setEvent((e) => ({ ...e, ...patch }))
 
   async function exportPng() {
     if (!posterRef.current) return
@@ -82,7 +86,18 @@ export default function App() {
   }
 
   async function importJson(file: File) {
-    applyDraft(await file.text())
+    try {
+      setEvent(normalizeEvent(JSON.parse(await file.text())))
+      setError(null)
+    } catch (e) {
+      setError(`Couldn't read that file: ${e instanceof Error ? e.message : String(e)}`)
+    }
+  }
+
+  function startOver(next: RaceEvent) {
+    if (window.confirm('Replace the current season? Export it first if you want to keep it.')) {
+      setEvent(structuredClone(next))
+    }
   }
 
   return (
@@ -90,50 +105,73 @@ export default function App() {
       <aside className="panel">
         <header>
           <h1>iRacing Posters</h1>
-          <p>Edit the season, choose what to show, download the poster.</p>
+          <p>Fill in the season, choose what to show, download the poster.</p>
         </header>
 
-        <fieldset>
-          <legend>Show on poster</legend>
-          {(Object.keys(fieldLabels) as (keyof FieldToggles)[]).map((key) => (
-            <label key={key} className="toggle">
+        <details className="section" open>
+          <summary>Series</summary>
+          <SeriesEditor event={event} onChange={update} />
+        </details>
+
+        <details className="section" open>
+          <summary>
+            Cars and classes <span className="count">{event.classes.length}</span>
+          </summary>
+          <ClassesEditor classes={event.classes} onChange={(classes) => update({ classes })} />
+        </details>
+
+        <details className="section" open>
+          <summary>
+            Weeks <span className="count">{event.races.length}</span>
+          </summary>
+          <WeeksEditor races={event.races} onChange={(races) => update({ races })} />
+        </details>
+
+        <details className="section">
+          <summary>Show on poster</summary>
+          <div className="toggles">
+            {(Object.keys(fieldLabels) as (keyof FieldToggles)[]).map((key) => (
+              <label key={key} className="check">
+                <input
+                  type="checkbox"
+                  checked={fields[key]}
+                  onChange={(e) => setFields({ ...fields, [key]: e.target.checked })}
+                />
+                {fieldLabels[key]}
+              </label>
+            ))}
+          </div>
+        </details>
+
+        <details className="section">
+          <summary>Save and share</summary>
+          <div className="actions">
+            <button onClick={exportJson}>Export season file</button>
+            <label className="button">
+              Import season file
               <input
-                type="checkbox"
-                checked={fields[key]}
-                onChange={(e) => setFields({ ...fields, [key]: e.target.checked })}
+                type="file"
+                accept="application/json,.json"
+                hidden
+                onChange={(e) => {
+                  if (e.target.files?.[0]) importJson(e.target.files[0])
+                  e.target.value = ''
+                }}
               />
-              {fieldLabels[key]}
             </label>
-          ))}
-        </fieldset>
-
-        <div className="actions">
-          <button className="primary" onClick={exportPng} disabled={exporting}>
-            {exporting ? 'Exporting…' : 'Download PNG'}
-          </button>
-          <button onClick={exportJson}>Export JSON</button>
-          <label className="button">
-            Import JSON
-            <input
-              type="file"
-              accept="application/json,.json"
-              hidden
-              onChange={(e) => e.target.files?.[0] && importJson(e.target.files[0])}
-            />
-          </label>
-          <button onClick={() => applyDraft(JSON.stringify(sampleSeason, null, 2))}>
-            Reset to sample
-          </button>
-        </div>
-
-        <label className="editor">
-          <span>Season data (JSON)</span>
-          <textarea value={draft} spellCheck={false} onChange={(e) => applyDraft(e.target.value)} />
-        </label>
-        {error && <p className="error">{error}</p>}
+            <button onClick={() => startOver(blankSeason)}>Start a blank season</button>
+            <button onClick={() => startOver(sampleSeason)}>Load the sample</button>
+          </div>
+          {error && <p className="error">{error}</p>}
+        </details>
       </aside>
 
       <main className="stage">
+        <div className="stage-bar">
+          <button className="primary" onClick={exportPng} disabled={exporting}>
+            {exporting ? 'Exporting…' : 'Download PNG'}
+          </button>
+        </div>
         <SeasonPoster ref={posterRef} event={event} fields={fields} />
       </main>
     </div>

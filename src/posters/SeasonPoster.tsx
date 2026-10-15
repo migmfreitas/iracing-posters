@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import type { FieldToggles, License, RaceEvent } from '../types'
+import { formatLength } from '../normalize'
 import { RainIcon, TimeOfDayIcon } from './icons'
 import './poster.css'
 
@@ -34,14 +35,14 @@ export const SeasonPoster = forwardRef<HTMLDivElement, Props>(function SeasonPos
   if (fields.license && event.license) {
     rows.push([
       'Class',
-      <span className={`license license-${event.license.toLowerCase()}`}>
+      <span key="license" className={`license license-${event.license.toLowerCase()}`}>
         {licenseLabel[event.license]}
       </span>,
     ])
   }
   if (fields.setup && event.setup) rows.push(['Setups', event.setup])
   if (fields.raceTimes && event.raceTimes) rows.push(['Races', event.raceTimes])
-  if (fields.length && event.length) rows.push(['Length', event.length])
+  if (fields.length && event.length) rows.push(['Length', formatLength(event.length)])
 
   return (
     <div className="poster" ref={ref}>

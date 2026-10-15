@@ -7,6 +7,11 @@ export interface CarClass {
   cars: string[]
 }
 
+export interface RaceLength {
+  value: number
+  unit: 'minutes' | 'laps'
+}
+
 export interface Weather {
   timeOfDay: TimeOfDay
   tempC: number
@@ -30,7 +35,7 @@ export interface RaceEvent {
   license?: License
   setup?: string // e.g. "Fixed", "Open", "Fixed/Open"
   raceTimes?: string // repeat rule, e.g. "Every 2 hours"
-  length?: string // e.g. "30 minutes"
+  length?: RaceLength
   classes: CarClass[]
   races: Race[]
 }

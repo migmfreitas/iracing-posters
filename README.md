@@ -6,11 +6,13 @@ The first template is the regular-season poster from the Figma design "iRacing S
 
 ## Use it
 
-1. Edit the season in the JSON box (or import a `.json` file).
-2. Tick the fields you want on the poster.
-3. Click **Download PNG**.
+1. Fill in the series: name, license class, setup, race times and length.
+2. Add car classes (pick from the list, then tick the cars) and the weeks (track, layout, time of day, temperature, rain chance).
+3. Choose what to show under **Show on poster**, then click **Download PNG**.
 
-Your last season is kept in the browser. **Export JSON** saves it as a file you can share, for example so league members can make their own posters.
+Your season is kept in the browser. **Save and share > Export season file** saves it as a file you can send to others, for example so league members can make their own posters.
+
+Car and track suggestions live in `src/data/catalog.ts`; anything not listed can still be typed in.
 
 ## Develop
 
