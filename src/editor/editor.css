@@ -313,3 +313,76 @@ button.add {
   border-style: dashed;
   color: var(--muted);
 }
+
+/* Series tabs */
+.series-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.series-tabs button {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.series-tabs button.on {
+  border-color: var(--accent);
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.series-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+.series-actions button {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.series-actions .danger {
+  margin-left: auto;
+}
+
+textarea.text {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.subgroup legend {
+  padding: 0 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.week-card.skipped > summary {
+  opacity: 0.6;
+}
+
+.muted {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.inline button.add {
+  flex: 1;
+}

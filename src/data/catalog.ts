@@ -98,4 +98,5 @@ export const raceTimePresets = [
   'Odd hours',
   'Even hours',
   'Once a week',
+  'Saturday → 04:00 · 15:00 (GMT)\nSunday → 00:00 · 20:00 (GMT)',
 ]

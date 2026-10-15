@@ -2,15 +2,15 @@
 
 Make calendar posters for iRacing seasons, special events and private leagues, straight from the browser.
 
-The first template is the regular-season poster from the Figma design "iRacing Series 2026 S1": a series card (class, setups, race times, length, cars) above a week-by-week list of tracks with time of day, temperature and rain chance.
+Posters follow the Figma design "iRacing Series 2026 S1": each series gets a card (class, setups, race times, length, cars) above a week-by-week list of tracks with time of day, temperature and rain chance. Several series can sit side by side, with blank rows for weeks a series skips, so a community can show its whole season on one poster.
 
 ## Use it
 
-1. Fill in the series: name, license class, setup, race times and length.
-2. Add car classes (pick from the list, then tick the cars) and the weeks (track, layout, time of day, temperature, rain chance).
-3. Choose what to show under **Show on poster**, then click **Download PNG**.
+1. Add series with **+ New series** or **Duplicate**, and switch between them with the tabs.
+2. Fill in each series: name, license class, setup, race times and length, car classes, and the weeks (track, layout, time of day, weather forecast). Mark a week as **No race** to leave it blank.
+3. Choose what to show under **Show on poster**, pick a **Format** (16:9, A4 portrait or landscape, square, story, or fit to content) and click **Download PNG**.
 
-Your season is kept in the browser. **Save and share > Export season file** saves it as a file you can send to others, for example so league members can make their own posters.
+Your poster is kept in the browser. **Save and share > Export poster file** saves it as a file you can send to others; older single-season files still import.
 
 Car and track suggestions live in `src/data/catalog.ts`; anything not listed can still be typed in.
 
