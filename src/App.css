@@ -1,7 +1,50 @@
 .app {
   display: grid;
-  grid-template-columns: minmax(340px, 440px) 1fr;
+  grid-template-columns: var(--panel-width, 440px) auto minmax(0, 1fr);
   height: 100vh;
+}
+
+.splitter {
+  position: relative;
+  width: 8px;
+  margin: 0 -4px;
+  z-index: 2;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.splitter::after {
+  content: '';
+  position: absolute;
+  inset: 0 3px;
+  background: var(--line);
+  transition: background 0.15s;
+}
+
+.splitter:hover::after,
+.splitter:focus-visible::after,
+body.resizing .splitter::after {
+  background: var(--accent);
+}
+
+.splitter:focus-visible {
+  outline: none;
+}
+
+body.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.panel-head button {
+  flex-shrink: 0;
 }
 
 .panel {
@@ -10,7 +53,6 @@
   gap: 12px;
   padding: 24px;
   overflow-y: auto;
-  border-right: 1px solid var(--line);
   background: var(--surface);
 }
 
@@ -114,9 +156,12 @@ button:disabled {
     height: auto;
   }
 
+  .splitter {
+    display: none;
+  }
+
   .panel {
     overflow: visible;
-    border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 

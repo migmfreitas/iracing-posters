@@ -129,3 +129,37 @@ export const sampleProject: Project = {
   fields: { ...defaultToggles },
   format: 'wide',
 }
+
+const productionCarChallenge: RaceEvent = {
+  id: 'production-car-challenge',
+  kind: 'season',
+  name: 'Production Car Challenge',
+  license: 'R',
+  setup: 'Fixed',
+  raceTimes: 'Every hour at :30',
+  length: { value: 25, unit: 'minutes' },
+  classes: [{ name: 'Production', cars: ['Global Mazda MX-5 Cup', 'BMW M2 Racing (G87)', 'Toyota GR86', 'Renault Clio'] }],
+  races: races('pcc', [
+    ['Hockenheimring Baden-Württemberg', 'Outer', 'morning', 20, 0],
+    ['Autodromo Nazionale Monza', 'GP without first chicane', 'day', 25, 0],
+    ['Snetterton Circuit', '300', 'day', 19, 30],
+    ['Motorsport Arena Oschersleben', 'Grand Prix', 'morning', 19, 0],
+    ['Silverstone Circuit', 'International', 'day', 20, 0],
+    ['Nürburgring Grand-Prix-Strecke', 'Kurzanbindung w/out Arena', 'day', 19, 0],
+    ['Circuito de Navarra', 'Speed Circuit', 'day', 19, 0],
+    ['Sonoma Raceway', 'Cup Long', 'day', 23, 0],
+    ['Circuit des 24 Heures du Mans', 'Historic', 'morning', 20, 0],
+    ['Summit Point Raceway', 'Summit Point Raceway', 'day', 19, 24],
+    ['Watkins Glen International', 'Classic Boot', 'evening', 19, 0],
+    ['Oulton Park Circuit', 'Island Historic', 'day', 19, 0],
+  ]),
+}
+
+// iRacing series people can start from on the start screen.
+export const seriesTemplates: RaceEvent[] = [
+  gt4Challenge,
+  sampleSeason,
+  imsaEndurance,
+  imsaPilot,
+  productionCarChallenge,
+]
