@@ -384,5 +384,6 @@ textarea.text {
 }
 
 .inline button.add {
+  white-space: nowrap;
   flex: 1;
 }

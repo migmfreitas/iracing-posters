@@ -1,7 +1,7 @@
 import { forwardRef, useLayoutEffect, useRef, useState } from 'react'
 import type { FieldToggles, License, PageFormat, RaceEvent } from '../types'
 import { pageFormats } from './formats'
-import { formatLength, weekLabels } from '../normalize'
+import { formatLength, raceLabel, weekLabels } from '../normalize'
 import { RainIcon, TimeOfDayIcon } from './icons'
 import './poster.css'
 
@@ -82,6 +82,7 @@ function SeriesCard({ event, fields, style }: { event: RaceEvent; fields: FieldT
 
 function WeekList({ event, fields, style }: { event: RaceEvent; fields: FieldToggles; style: React.CSSProperties }) {
   const labels = weekLabels(event.races)
+  const total = labels.filter((n) => n !== null).length
   const showChips = fields.timeOfDay || fields.weather
   return (
     <section className="weeks" style={style}>
@@ -96,7 +97,7 @@ function WeekList({ event, fields, style }: { event: RaceEvent; fields: FieldTog
           </div>
         ) : (
           <div className="week" key={race.id}>
-            <span className="week-label">Week {labels[i]}</span>
+            <span className="week-label">{raceLabel(event.kind, labels[i] ?? 0, total, race.date)}</span>
             <span className="track">
               <span>{race.track || '-'}</span>
               <span className="config">{race.config || '-'}</span>

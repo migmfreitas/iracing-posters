@@ -1,4 +1,4 @@
-import type { PageFormat, Project, Race, RaceEvent, RaceLength, TimeOfDay } from './types'
+import type { EventKind, PageFormat, Project, Race, RaceEvent, RaceLength, TimeOfDay } from './types'
 import { defaultToggles } from './types'
 
 let counter = 0
@@ -85,4 +85,17 @@ export function normalizeProject(input: unknown): Project {
 export function weekLabels(races: Race[]) {
   let n = 0
   return races.map((r) => (r.skip ? null : ++n))
+}
+
+const shortDate = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' })
+
+// What a race row is called: "Week 3" for seasons, "Round 3" for leagues,
+// the date (or "Race") for special events.
+export function raceLabel(kind: EventKind, n: number, total: number, date?: string) {
+  if (kind === 'league') return `Round ${n}`
+  if (kind === 'special') {
+    if (date && !Number.isNaN(Date.parse(date))) return shortDate.format(new Date(date))
+    return total > 1 ? `Race ${n}` : 'Race'
+  }
+  return `Week ${n}`
 }

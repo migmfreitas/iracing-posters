@@ -3,16 +3,33 @@ import { toPng } from 'html-to-image'
 import { get, set } from 'idb-keyval'
 import { Poster } from './posters/Poster'
 import { pageFormats } from './posters/formats'
-import { sampleProject } from './data/sampleSeason'
 import { newId, normalizeProject } from './normalize'
 import { SeriesEditor } from './editor/SeriesEditor'
 import { ClassesEditor } from './editor/ClassesEditor'
 import { WeeksEditor } from './editor/WeeksEditor'
+import { StartScreen } from './StartScreen'
 import { defaultToggles, type FieldToggles, type PageFormat, type Project, type RaceEvent } from './types'
 import './App.css'
 import './editor/editor.css'
 
 const STORAGE_KEY = 'current-event'
+
+const emptyProject: Project = { version: 2, series: [], fields: { ...defaultToggles }, format: 'fit' }
+const PANEL_KEY = 'panel-width'
+const PANEL_MIN = 360
+const PANEL_DEFAULT = 440
+const STAGE_MIN = 240
+
+function savedPanelWidth() {
+  try {
+    const n = Number(localStorage.getItem(PANEL_KEY))
+    return n >= PANEL_MIN ? n : PANEL_DEFAULT
+  } catch {
+    return PANEL_DEFAULT
+  }
+}
+
+const clampPanel = (w: number) => Math.round(Math.max(PANEL_MIN, Math.min(w, window.innerWidth - STAGE_MIN)))
 
 const fieldLabels: Record<keyof FieldToggles, string> = {
   license: 'License class',
@@ -32,13 +49,6 @@ function blankSeries(weeks: number): RaceEvent {
     classes: [],
     races: Array.from({ length: weeks }, () => ({ id: newId('race'), track: '', skip: true })),
   }
-}
-
-const blankProject: Project = {
-  version: 2,
-  series: [blankSeries(0)],
-  fields: { ...defaultToggles },
-  format: 'fit',
 }
 
 function slug(s: string) {
@@ -100,28 +110,92 @@ function Preview({ children }: { children: React.ReactNode }) {
   )
 }
 
+// Drag handle between the editor and the preview; arrow keys work too.
+function Splitter({ width, onChange }: { width: number; onChange: (w: number) => void }) {
+  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.preventDefault()
+    const startX = e.clientX
+    const startW = width
+    const el = e.currentTarget
+    el.setPointerCapture(e.pointerId)
+    document.body.classList.add('resizing')
+    const move = (ev: PointerEvent) => onChange(clampPanel(startW + ev.clientX - startX))
+    const up = () => {
+      el.removeEventListener('pointermove', move)
+      el.removeEventListener('pointerup', up)
+      document.body.classList.remove('resizing')
+    }
+    el.addEventListener('pointermove', move)
+    el.addEventListener('pointerup', up)
+  }
+
+  return (
+    <div
+      className="splitter"
+      role="separator"
+      aria-orientation="vertical"
+      aria-label="Resize the editor"
+      aria-valuenow={width}
+      aria-valuemin={PANEL_MIN}
+      tabIndex={0}
+      title="Drag to resize · double-click to reset"
+      onPointerDown={onPointerDown}
+      onDoubleClick={() => onChange(clampPanel(PANEL_DEFAULT))}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowLeft') onChange(clampPanel(width - 40))
+        if (e.key === 'ArrowRight') onChange(clampPanel(width + 40))
+      }}
+    />
+  )
+}
+
 export default function App() {
-  const [project, setProject] = useState<Project>(sampleProject)
+  const [screen, setScreen] = useState<'start' | 'editor'>('start')
+  const [saved, setSaved] = useState<Project | null>(null)
+  const [project, setProject] = useState<Project>(emptyProject)
+  const [panelWidth, setPanelWidth] = useState(savedPanelWidth)
   const [active, setActive] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const posterRef = useRef<HTMLDivElement>(null)
-  const loaded = useRef(false)
 
   useEffect(() => {
     get(STORAGE_KEY)
-      .then((saved) => {
-        if (saved) setProject(normalizeProject(saved))
+      .then((data) => {
+        if (data) setSaved(normalizeProject(data))
       })
       .catch(() => {})
-      .finally(() => {
-        loaded.current = true
-      })
   }, [])
 
   useEffect(() => {
-    if (loaded.current) set(STORAGE_KEY, project).catch(() => {})
-  }, [project])
+    if (screen === 'editor') set(STORAGE_KEY, project).catch(() => {})
+  }, [project, screen])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(PANEL_KEY, String(panelWidth))
+    } catch {
+      // Not saved; the default width is used next time.
+    }
+  }, [panelWidth])
+
+  useEffect(() => {
+    const fit = () => setPanelWidth((w) => clampPanel(w))
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [])
+
+  function open(next: Project) {
+    setProject(next)
+    setActive(0)
+    setError(null)
+    setScreen('editor')
+  }
+
+  function backToStart() {
+    setSaved(project)
+    setScreen('start')
+  }
 
   const index = Math.min(active, project.series.length - 1)
   const event = project.series[index]
@@ -181,19 +255,21 @@ export default function App() {
     }
   }
 
-  function startOver(next: Project) {
-    if (window.confirm('Replace the whole poster? Export it first if you want to keep it.')) {
-      setProject(structuredClone(next))
-      setActive(0)
-    }
+  if (screen === 'start') {
+    return <StartScreen hasSaved={saved !== null} onContinue={() => saved && open(saved)} onStart={open} />
   }
 
+  const raceWord = event.kind === 'special' ? 'Races' : event.kind === 'league' ? 'Rounds' : 'Weeks'
+
   return (
-    <div className="app">
+    <div className="app" style={{ '--panel-width': `${panelWidth}px` } as React.CSSProperties}>
       <aside className="panel">
-        <header>
-          <h1>iRacing Posters</h1>
-          <p>Add one or more series, fill them in, pick a format and download.</p>
+        <header className="panel-head">
+          <div>
+            <h1>iRacing Posters</h1>
+            <p>Fill in the details on this side; the poster updates as you go.</p>
+          </div>
+          <button onClick={backToStart}>New poster</button>
         </header>
 
         <div className="series-tabs" role="tablist" aria-label="Series on this poster">
@@ -242,9 +318,14 @@ export default function App() {
 
         <details className="section" open>
           <summary>
-            Weeks <span className="count">{event.races.filter((r) => !r.skip).length}</span>
+            {raceWord} <span className="count">{event.races.filter((r) => !r.skip).length}</span>
           </summary>
-          <WeeksEditor key={event.id} races={event.races} onChange={(races) => updateSeries({ races })} />
+          <WeeksEditor
+            key={event.id}
+            kind={event.kind}
+            races={event.races}
+            onChange={(races) => updateSeries({ races })}
+          />
         </details>
 
         <details className="section">
@@ -279,12 +360,12 @@ export default function App() {
                 }}
               />
             </label>
-            <button onClick={() => startOver(blankProject)}>Start from scratch</button>
-            <button onClick={() => startOver(sampleProject)}>Load the sample</button>
           </div>
           {error && <p className="error">{error}</p>}
         </details>
       </aside>
+
+      <Splitter width={panelWidth} onChange={setPanelWidth} />
 
       <main className="stage">
         <div className="stage-bar">

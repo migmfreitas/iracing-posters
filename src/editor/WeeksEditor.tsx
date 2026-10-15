@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import type { Race, TimeOfDay, Weather } from '../types'
+import type { EventKind, Race, TimeOfDay, Weather } from '../types'
 import { tracks } from '../data/catalog'
-import { newId } from '../normalize'
+import { newId, raceLabel, weekLabels } from '../normalize'
 import { TimeOfDayIcon } from '../posters/icons'
 import { Combo, Field, IconButton, Segmented, Slider } from './controls'
 
@@ -10,12 +10,14 @@ const timesOfDay: TimeOfDay[] = ['morning', 'day', 'evening', 'night']
 const defaultWeather: Weather = { tempC: 20, rainPct: 0 }
 
 interface Props {
+  kind: EventKind
   races: Race[]
   onChange: (races: Race[]) => void
 }
 
 function WeekCard({
   race,
+  label,
   index,
   count,
   onChange,
@@ -24,6 +26,7 @@ function WeekCard({
   onRemove,
 }: {
   race: Race
+  label: string
   index: number
   count: number
   onChange: (race: Race) => void
@@ -42,9 +45,9 @@ function WeekCard({
       onToggle={(e) => setOpen(e.currentTarget.open)}
     >
       <summary>
-        <span className="week-num">Week {index + 1}</span>
+        <span className="week-num">{label}</span>
         {race.skip ? (
-          <span className="week-sum muted">No race this week</span>
+          <span className="week-sum muted">No race</span>
         ) : (
           <>
             <span className="week-sum">
@@ -61,11 +64,11 @@ function WeekCard({
 
       <div className="stack">
         <Segmented
-          label="Race this week"
+          label="Race or blank"
           value={race.skip ? 'skip' : 'race'}
           options={[
             { value: 'race', label: 'Race' },
-            { value: 'skip', label: 'No race (blank week)' },
+            { value: 'skip', label: 'Blank' },
           ]}
           onChange={(v) => onChange({ ...race, skip: v === 'skip' ? true : undefined })}
         />
@@ -90,6 +93,15 @@ function WeekCard({
                 options={tracks[race.track] ?? []}
                 placeholder={tracks[race.track] ? 'Pick a layout' : 'e.g. Grand Prix'}
                 onChange={(config) => onChange({ ...race, config })}
+              />
+            </Field>
+            <Field label="Date" hint="Optional">
+              <input
+                className="text"
+                type="date"
+                aria-label="Date"
+                value={race.date ?? ''}
+                onChange={(e) => onChange({ ...race, date: e.target.value || undefined })}
               />
             </Field>
             <Field label="Time of day" hint="When the race starts">
@@ -146,7 +158,7 @@ function WeekCard({
             Duplicate
           </button>
           <button type="button" className="danger" onClick={onRemove}>
-            Remove week
+            Remove
           </button>
         </div>
       </div>
@@ -154,7 +166,10 @@ function WeekCard({
   )
 }
 
-export function WeeksEditor({ races, onChange }: Props) {
+export function WeeksEditor({ kind, races, onChange }: Props) {
+  const numbers = weekLabels(races)
+  const total = numbers.filter((n) => n !== null).length
+  const word = kind === 'special' ? 'race' : kind === 'league' ? 'round' : 'week'
   function move(i: number, delta: number) {
     const next = [...races]
     const [item] = next.splice(i, 1)
@@ -168,6 +183,7 @@ export function WeeksEditor({ races, onChange }: Props) {
         <WeekCard
           key={race.id}
           race={race}
+          label={race.skip ? 'Blank' : raceLabel(kind, numbers[i] ?? 0, total, race.date)}
           index={i}
           count={races.length}
           onChange={(next) => onChange(races.map((r, j) => (j === i ? next : r)))}
@@ -188,14 +204,14 @@ export function WeeksEditor({ races, onChange }: Props) {
             onChange([...races, { id: newId('race'), track: '', timeOfDay: 'day', weather: { ...defaultWeather } }])
           }
         >
-          + Add week
+          + Add {word}
         </button>
         <button
           type="button"
           className="add"
           onClick={() => onChange([...races, { id: newId('race'), track: '', skip: true }])}
         >
-          + Add blank week
+          + Add blank {word}
         </button>
       </div>
     </div>

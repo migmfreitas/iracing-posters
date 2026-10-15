@@ -1,0 +1,693 @@
+[
+  {
+    "id": "gt4-challenge",
+    "kind": "season",
+    "name": "GT4 Challenge",
+    "license": "D",
+    "setup": "Fixed",
+    "raceTimes": "Every 2 hours",
+    "length": {
+      "value": 20,
+      "unit": "minutes"
+    },
+    "classes": [
+      {
+        "name": "GT4",
+        "cars": [
+          "Aston Martin Vantage GT4",
+          "BMW M4 G82 GT4 EVO",
+          "Ford Mustang GT4",
+          "McLaren 570S GT4",
+          "Mercedes-AMG GT4",
+          "Porsche 718 Cayman GT4 Clubsport MR"
+        ]
+      }
+    ],
+    "races": [
+      {
+        "id": "gt4-w1",
+        "track": "Charlotte Motor Speedway",
+        "config": "Roval 2025",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 22,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w2",
+        "track": "Indianapolis Motor Speedway",
+        "config": "Road Course",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 22,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w3",
+        "track": "Autódromo Hermanos Rodríguez",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 28,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w4",
+        "track": "Road Atlanta",
+        "config": "Full Course",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 21,
+          "rainPct": 26
+        }
+      },
+      {
+        "id": "gt4-w5",
+        "track": "Nürburgring Nordschleife",
+        "config": "Industriefahrten",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 18,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w6",
+        "track": "Autódromo José Carlos Pace",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 26,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w7",
+        "track": "Brands Hatch Circuit",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w8",
+        "track": "Red Bull Ring",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 18,
+          "rainPct": 33
+        }
+      },
+      {
+        "id": "gt4-w9",
+        "track": "Hungaroring",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 18,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w10",
+        "track": "Circuit Zandvoort",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w11",
+        "track": "Circuit des 24 Heures du Mans",
+        "config": "24 Heures du Mans",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "gt4-w12",
+        "track": "Hockenheimring Baden-Württemberg",
+        "config": "Grand Prix",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "sample-sports-car-challenge",
+    "kind": "season",
+    "name": "Sports Car Challenge",
+    "license": "C",
+    "setup": "Fixed/Open",
+    "raceTimes": "Every 2 hours",
+    "length": {
+      "value": 30,
+      "unit": "minutes"
+    },
+    "classes": [
+      {
+        "name": "LMP3",
+        "cars": [
+          "Ligier JS P320"
+        ]
+      },
+      {
+        "name": "GT4",
+        "cars": [
+          "Aston Martin Vantage GT4",
+          "BMW M4 G82 GT4 EVO",
+          "Ford Mustang GT4",
+          "McLaren 570S GT4",
+          "Mercedes-AMG GT4",
+          "Porsche 718 Cayman GT4 Clubsport MR"
+        ]
+      }
+    ],
+    "races": [
+      {
+        "id": "scc-w1",
+        "track": "Charlotte Motor Speedway",
+        "config": "Roval 2025",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w2",
+        "track": "Indianapolis Motor Speedway",
+        "config": "Road Course",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 22,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w3",
+        "track": "Autódromo Hermanos Rodríguez",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 21,
+          "rainPct": 27
+        }
+      },
+      {
+        "id": "scc-w4",
+        "track": "Road Atlanta",
+        "config": "Full Course",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 24,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w5",
+        "track": "Nürburgring Nordschleife",
+        "config": "Industriefahrten",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w6",
+        "track": "Autódromo José Carlos Pace",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 21,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w7",
+        "track": "Brands Hatch Circuit",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w8",
+        "track": "Red Bull Ring",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w9",
+        "track": "Hungaroring",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w10",
+        "track": "Circuit Zandvoort",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "scc-w11",
+        "track": "Circuit des 24 Heures du Mans",
+        "config": "24 Heures du Mans",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 30
+        }
+      },
+      {
+        "id": "scc-w12",
+        "track": "Hockenheimring Baden-Württemberg",
+        "config": "Grand Prix",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 23,
+          "rainPct": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "imsa-endurance",
+    "kind": "season",
+    "name": "IMSA Sportscar Endurance Challenge",
+    "license": "C",
+    "setup": "Open",
+    "raceTimes": "Saturday → 04:00 · 15:00 (GMT)\nSunday → 00:00 · 20:00 (GMT)",
+    "length": {
+      "value": 120,
+      "unit": "minutes"
+    },
+    "classes": [
+      {
+        "name": "LMP3",
+        "cars": [
+          "Ligier JS P320"
+        ]
+      },
+      {
+        "name": "GT4",
+        "cars": [
+          "Aston Martin Vantage GT4",
+          "BMW M4 G82 GT4 EVO",
+          "Ford Mustang GT4",
+          "McLaren 570S GT4",
+          "Mercedes-AMG GT4",
+          "Porsche 718 Cayman GT4 Clubsport MR"
+        ]
+      }
+    ],
+    "races": [
+      {
+        "id": "imsa-e-w1",
+        "track": "Charlotte Motor Speedway",
+        "config": "Roval 2025",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-e-w2",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-e-w3",
+        "track": "Autódromo Hermanos Rodríguez",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 22,
+          "rainPct": 26
+        }
+      },
+      {
+        "id": "imsa-e-w4",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-e-w5",
+        "track": "Nürburgring Nordschleife",
+        "config": "Industriefahrten",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-e-w6",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-e-w7",
+        "track": "Brands Hatch Circuit",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 34
+        }
+      },
+      {
+        "id": "imsa-e-w8",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-e-w9",
+        "track": "Hungaroring",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-e-w10",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-e-w11",
+        "track": "Circuit des 24 Heures du Mans",
+        "config": "24 Heures du Mans",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-e-w12",
+        "track": "",
+        "skip": true
+      }
+    ]
+  },
+  {
+    "id": "imsa-pilot",
+    "kind": "season",
+    "name": "IMSA Michelin Pilot Challenge",
+    "license": "C",
+    "setup": "Open",
+    "raceTimes": "Saturday → 04:00 · 15:00 (GMT)\nSunday → 00:00 · 20:00 (GMT)",
+    "length": {
+      "value": 120,
+      "unit": "minutes"
+    },
+    "classes": [
+      {
+        "name": "GT4",
+        "cars": [
+          "Aston Martin Vantage GT4",
+          "BMW M4 G82 GT4 EVO",
+          "Ford Mustang GT4",
+          "McLaren 570S GT4",
+          "Mercedes-AMG GT4",
+          "Porsche 718 Cayman GT4 Clubsport MR"
+        ]
+      },
+      {
+        "name": "TCR",
+        "cars": [
+          "Audi RS 3 LMS TCR",
+          "Honda Civic Type R TCR",
+          "Hyundai Elantra N TCR",
+          "Hyundai Veloster N TCR"
+        ]
+      }
+    ],
+    "races": [
+      {
+        "id": "imsa-p-w1",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w2",
+        "track": "Indianapolis Motor Speedway",
+        "config": "Road Course",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-p-w3",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w4",
+        "track": "Road America",
+        "config": "Full Course",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 31
+        }
+      },
+      {
+        "id": "imsa-p-w5",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w6",
+        "track": "Autódromo José Carlos Pace",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 22,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-p-w7",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w8",
+        "track": "Red Bull Ring",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-p-w9",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w10",
+        "track": "Circuit Zandvoort",
+        "config": "Grand Prix",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "imsa-p-w11",
+        "track": "",
+        "skip": true
+      },
+      {
+        "id": "imsa-p-w12",
+        "track": "Hockenheimring Baden-Württemberg",
+        "config": "Grand Prix",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 34
+        }
+      }
+    ]
+  },
+  {
+    "id": "production-car-challenge",
+    "kind": "season",
+    "name": "Production Car Challenge",
+    "license": "R",
+    "setup": "Fixed",
+    "raceTimes": "Every hour at :30",
+    "length": {
+      "value": 25,
+      "unit": "minutes"
+    },
+    "classes": [
+      {
+        "name": "Production",
+        "cars": [
+          "Global Mazda MX-5 Cup",
+          "BMW M2 Racing (G87)",
+          "Toyota GR86",
+          "Renault Clio"
+        ]
+      }
+    ],
+    "races": [
+      {
+        "id": "pcc-w1",
+        "track": "Hockenheimring Baden-Württemberg",
+        "config": "Outer",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w2",
+        "track": "Autodromo Nazionale Monza",
+        "config": "GP without first chicane",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 25,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w3",
+        "track": "Snetterton Circuit",
+        "config": "300",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 30
+        }
+      },
+      {
+        "id": "pcc-w4",
+        "track": "Motorsport Arena Oschersleben",
+        "config": "Grand Prix",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w5",
+        "track": "Silverstone Circuit",
+        "config": "International",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w6",
+        "track": "Nürburgring Grand-Prix-Strecke",
+        "config": "Kurzanbindung w/out Arena",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w7",
+        "track": "Circuito de Navarra",
+        "config": "Speed Circuit",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w8",
+        "track": "Sonoma Raceway",
+        "config": "Cup Long",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 23,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w9",
+        "track": "Circuit des 24 Heures du Mans",
+        "config": "Historic",
+        "timeOfDay": "morning",
+        "weather": {
+          "tempC": 20,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w10",
+        "track": "Summit Point Raceway",
+        "config": "Summit Point Raceway",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 24
+        }
+      },
+      {
+        "id": "pcc-w11",
+        "track": "Watkins Glen International",
+        "config": "Classic Boot",
+        "timeOfDay": "evening",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      },
+      {
+        "id": "pcc-w12",
+        "track": "Oulton Park Circuit",
+        "config": "Island Historic",
+        "timeOfDay": "day",
+        "weather": {
+          "tempC": 19,
+          "rainPct": 0
+        }
+      }
+    ]
+  }
+]
