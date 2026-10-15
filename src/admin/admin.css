@@ -1,0 +1,152 @@
+.admin {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.admin a {
+  color: var(--accent);
+}
+
+.admin a.button {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin .muted {
+  color: var(--muted);
+}
+
+.admin .small {
+  font-size: 13px;
+}
+
+.admin-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-head h1 {
+  margin: 0 0 4px;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.admin-head p {
+  margin: 0;
+}
+
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  background: var(--bg);
+}
+
+.admin-bar .spacer {
+  flex: 1;
+}
+
+.unsaved {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.connect {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.connect h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.connect .inline {
+  max-width: 560px;
+}
+
+.status {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--hover);
+}
+
+.status.error {
+  color: #f2726f;
+}
+
+.status.ok {
+  color: #7fd88a;
+}
+
+.admin-tabs {
+  margin: 24px 0 16px;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.entry-list textarea {
+  resize: vertical;
+}
+
+.templates-admin {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.template-list {
+  position: sticky;
+  top: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.template-list button {
+  text-align: left;
+}
+
+.template-list button.on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.template-edit {
+  max-width: 640px;
+}
+
+@media (max-width: 760px) {
+  .templates-admin {
+    grid-template-columns: 1fr;
+  }
+
+  .template-list {
+    position: static;
+  }
+}

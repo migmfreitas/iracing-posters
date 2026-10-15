@@ -105,6 +105,17 @@ button:disabled {
   cursor: default;
 }
 
+button.link {
+  padding: 0;
+  border: 0;
+  color: var(--accent);
+}
+
+button.link:hover:not(:disabled) {
+  background: none;
+  text-decoration: underline;
+}
+
 .error {
   margin: 8px 0 0;
   color: #f2726f;

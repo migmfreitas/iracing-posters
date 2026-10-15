@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { seriesTemplates } from './data/sampleSeason'
+import { seriesTemplates } from './data/templates'
 import { tracks } from './data/catalog'
 import { newId } from './normalize'
 import { Combo, Field, Slider } from './editor/controls'

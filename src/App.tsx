@@ -3,17 +3,18 @@ import { toPng } from 'html-to-image'
 import { get, set } from 'idb-keyval'
 import { Poster } from './posters/Poster'
 import { pageFormats } from './posters/formats'
-import { sampleProject } from './data/sampleSeason'
 import { newId, normalizeProject } from './normalize'
 import { SeriesEditor } from './editor/SeriesEditor'
 import { ClassesEditor } from './editor/ClassesEditor'
 import { WeeksEditor } from './editor/WeeksEditor'
 import { StartScreen } from './StartScreen'
-import { type FieldToggles, type PageFormat, type Project, type RaceEvent } from './types'
+import { defaultToggles, type FieldToggles, type PageFormat, type Project, type RaceEvent } from './types'
 import './App.css'
 import './editor/editor.css'
 
 const STORAGE_KEY = 'current-event'
+
+const emptyProject: Project = { version: 2, series: [], fields: { ...defaultToggles }, format: 'fit' }
 const PANEL_KEY = 'panel-width'
 const PANEL_MIN = 360
 const PANEL_DEFAULT = 440
@@ -151,7 +152,7 @@ function Splitter({ width, onChange }: { width: number; onChange: (w: number) =>
 export default function App() {
   const [screen, setScreen] = useState<'start' | 'editor'>('start')
   const [saved, setSaved] = useState<Project | null>(null)
-  const [project, setProject] = useState<Project>(sampleProject)
+  const [project, setProject] = useState<Project>(emptyProject)
   const [panelWidth, setPanelWidth] = useState(savedPanelWidth)
   const [active, setActive] = useState(0)
   const [error, setError] = useState<string | null>(null)

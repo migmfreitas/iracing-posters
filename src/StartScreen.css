@@ -114,14 +114,3 @@
 .start-continue {
   margin-top: 32px;
 }
-
-button.link {
-  padding: 0;
-  border: 0;
-  color: var(--accent);
-}
-
-button.link:hover:not(:disabled) {
-  background: none;
-  text-decoration: underline;
-}
