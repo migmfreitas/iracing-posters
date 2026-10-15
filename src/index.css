@@ -1,0 +1,23 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource/outfit/500.css';
+
+:root {
+  --bg: #1d1d22;
+  --surface: #26262c;
+  --line: rgb(255 255 255 / 0.12);
+  --hover: rgb(255 255 255 / 0.06);
+  --text: #f4f4f6;
+  --muted: rgb(255 255 255 / 0.6);
+  --accent: #e7e782;
+
+  color-scheme: dark;
+  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+}

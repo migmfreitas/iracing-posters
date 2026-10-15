@@ -1,0 +1,161 @@
+/* Season poster, from the "iRacing Series 2026 S1" Figma frame (base scale: 660px wide). */
+.poster {
+  --poster-bg: #2a2a30;
+  --card-bg: #37373f;
+  --panel-bg: #3e3e45;
+  --text: #fff;
+  --rain: #51bfdb;
+
+  width: 660px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  box-sizing: content-box;
+  background: var(--poster-bg);
+  color: var(--text);
+  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.poster .card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 32px;
+  background: var(--card-bg);
+}
+
+.poster .info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.poster .title {
+  margin: 0;
+  font-size: 20px;
+  line-height: normal;
+  font-weight: 900;
+}
+
+.poster .rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.poster .rows .row + .row {
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.poster .row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.poster .label {
+  width: 80px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.poster .value {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.poster .license {
+  align-self: flex-start;
+  padding: 4px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: Outfit, sans-serif;
+  font-weight: 500;
+  line-height: 16px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.poster .license-r { color: #f2726f; }
+.poster .license-d { color: #f5a65b; }
+.poster .license-c { color: #e7e782; }
+.poster .license-b { color: #7fd88a; }
+.poster .license-a { color: #6fa8f5; }
+.poster .license-pro { color: #d0d0d8; }
+
+.poster .cars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--panel-bg);
+}
+
+.poster .weeks {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.poster .week {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+}
+
+.poster .week + .week {
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.poster .week-label {
+  width: 80px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.poster .track {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.poster .config {
+  opacity: 0.7;
+}
+
+.poster .chips {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.poster .chip {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 48px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: normal;
+  color: rgb(255 255 255 / 0.7);
+}
+
+.poster .chip-tod { background: rgb(255 255 255 / 0.03); }
+.poster .chip-rain { background: rgb(255 255 255 / 0.07); }
+.poster .chip-rain.wet {
+  background: rgb(81 191 219 / 0.1);
+  color: var(--rain);
+}
