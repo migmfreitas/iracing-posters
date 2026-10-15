@@ -17,6 +17,7 @@ const licenseLabel: Record<License, string> = {
 const COLUMN_WIDTH = 660
 const GAP = 16
 const MARGIN = 48
+const BOARD_PADDING = 16
 
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -177,11 +178,11 @@ export const Poster = forwardRef<HTMLDivElement, PosterProps>(function Poster({ 
       }
       // Height of one block row, from the current layout.
       const rowsNow = Math.ceil(n / layout.columns)
-      const blockH = (h - (rowsNow - 1) * GAP) / rowsNow
+      const blockH = (h - 2 * BOARD_PADDING - (rowsNow - 1) * GAP) / rowsNow
       const scaleFor = (k: number) => {
         const rows = Math.ceil(n / k)
-        const bw = k * COLUMN_WIDTH + (k - 1) * GAP
-        const bh = rows * blockH + (rows - 1) * GAP
+        const bw = k * COLUMN_WIDTH + (k - 1) * GAP + 2 * BOARD_PADDING
+        const bh = rows * blockH + (rows - 1) * GAP + 2 * BOARD_PADDING
         return Math.min((size[0] - 2 * MARGIN) / bw, (size[1] - 2 * MARGIN) / bh)
       }
       let best = { columns: n, scale: 0 }

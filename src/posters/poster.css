@@ -1,6 +1,7 @@
 /* Poster, from the "iRacing Series 2026 S1" Figma file (base scale: 660px per series column). */
 .poster {
-  --poster-bg: #2a2a30;
+  --poster-bg: #18181c;
+  --board-bg: #27272d;
   --card-bg: #37373f;
   --panel-bg: #3e3e45;
   --text: #fff;
@@ -32,6 +33,9 @@
   column-gap: 16px;
   row-gap: 16px;
   align-items: stretch;
+  padding: 16px;
+  border-radius: 48px;
+  background: var(--board-bg);
 }
 
 .poster .card {
